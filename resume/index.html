@@ -175,6 +175,7 @@
     <script src="./js/auto-slideup.js"></script>
     <script src="./js//sticky-topbar.js"></script>
     <script src="./js/smooth-navigation.js"></script>
+    <script src="./js/message.js"></script>   
     <script>
         //setTimeout(function () {
         //    sitewelc.classList.remove('active');
@@ -208,53 +209,6 @@
         //     }
         //     li.classList.add('highlight')
         // }      
-
-
-
-        // leancloud
-        var APP_ID = 'caqhKIo7XAUfUBR2CM9R2J0Y-gzGzoHsz';
-        var APP_KEY = 'qFYXhtt6yn12nlK3b7G5Q68G';
-        //var AV = require('leancloud-storage');
-
-        AV.init({
-            appId: APP_ID,
-            appKey: APP_KEY
-        });
-
-        var myMessage = AV.Object.extend('message');
-        var saveMessages = new myMessage();
-
-        var query = new AV.Query('message');
-        query.find().then(function (messages) {
-            var array = messages.map((item) => item.attributes);
-            var messagelist = document.querySelector('#message-list');
-            array.forEach((item) => {
-                let li = document.createElement('li');
-                li.innerText = `${item.user}:${item.words}`;
-                messagelist.append(li);
-            })
-        }, function (error) {
-            console.log(error);
-        }).then(function () {}, function (error) {
-            console.log(error)
-        })
-
-        let messageform = document.querySelector('#messages');
-        messageform.addEventListener('submit', function (e) {
-            e.preventDefault();
-            let owner = messageform.querySelector('input[name=owner]').value;
-            var content = messageform.querySelector('input[name=content]').value;
-            saveMessages.save({
-                user: owner,
-                words: content
-            }).then(function (object) {
-                let li = document.createElement('li');
-                li.innerText = `${object.attributes.user}:${object.attributes.words}`;
-                var messagelist = document.querySelector('#message-list');
-                messagelist.append(li);
-                messageform.querySelector('input[name=content]').value = '';
-            })
-        })
     </script>
 </body>
 
