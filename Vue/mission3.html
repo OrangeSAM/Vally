@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>mission 3</title>
+  </head>
+  <body>
+    <div id="compute">{{ reverse }}</div>
+
+    <div id="compute2" @click="reverse">{{ b }}</div>
+
+    <div id="fullname">{{ fullName }}</div>
+    <div id="fullname2">{{ fullName2 }}</div>
+    <script src="./vue.js"></script>
+    <script>
+      var mycompute = new Vue({
+        el: "#compute",
+        data: {
+          a: "abcded"
+        },
+        computed: {
+          // reverse 是数组的方法所以要先用split 转成数组
+          reverse: function() {
+            return this.a
+              .split("")
+              .reverse()
+              .join("");
+          }
+        }
+      });
+
+      var mycompute2 = new Vue({
+        el: "#compute2",
+        data: {
+          b: "kksjsjs"
+        },
+        methods: {
+          reverse: function() {
+            this.b = this.b
+              .split("")
+              .reverse()
+              .join("");
+          }
+        }
+      });
+
+      var fullname = new Vue({
+        el: "#fullname",
+        data: {
+          firstname: "sam",
+          lastname: "smith"
+        },
+        computed: {
+          fullName: function() {
+            return this.firstname + "  " + this.lastname;
+          }
+        }
+      });
+
+      var fullName2 = new Vue({
+        el: "#fullname2",
+        data: {
+          fullName2: {
+            firstname: "sam",
+            lastname: "smith"
+          }
+        },
+        watch: {
+          fullName2: {
+            hander(cur, old) {
+              console.log(cur, old);
+            }
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
