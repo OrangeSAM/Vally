@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <style>
+        .vbind {
+            width: 100px;
+            height: 100px;
+        }
+
+        .red {
+            background-color: red;
+        }
+    </style>
+    <title>任务2课后练习</title>
+</head>
+
+<body>
+    <div class="mydate">{{date}}</div>
+
+    <div class="myvtext" v-text="txt"></div>
+
+    <div class="myhtml" v-html="html"></div>
+
+    <div class="vbind" v-bind:class="{red:isRed}"></div>
+
+    <div class="von" v-on:click="mycount">{{num|plus}}</div>
+    <script src="./vue.js"></script>
+
+    <!-- 是不是只能挂载到一个对象中 -->
+    <script>
+        var mydate = new Vue({
+            el: '.mydate',
+            data: {
+                date: new Date(),
+            },
+            mounted: function () {
+                var _this = this;
+                this.timer = setInterval(function () {
+                    _this.date = new Date();
+                }, 1000)
+            },
+            beforeDestroy: function () {
+                if (this.timer) {
+                    clearInterval(this.timer);
+                }
+            }
+
+        })
+        var myvtext = new Vue({
+            el: '.myvtext',
+            data: {
+                txt: 'heihei',
+            }
+        })
+
+        var myhtml = new Vue({
+            el: '.myhtml',
+            data: {
+                html: '<h1>heihei</h1>',
+            }
+        })
+        var mybind = new Vue({
+            el: '.vbind',
+            data: {
+                isRed: true,
+            }
+        })
+        var myvon = new Vue({
+            el: '.von',
+            data: {
+                num: 0,
+            },
+            methods: {
+                mycount: function () {
+                    this.num = this.num + 1;
+                }
+            },
+            filters: {
+                plus: function (value) {
+                    return value + 'heihei' + (value + 1);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

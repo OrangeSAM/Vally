@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>media query</title>
+    <style>
+        li {
+            list-style: none;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: brown;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media screen and (min-width:0px) and (max-width:375px) {
+
+            .nav1 {
+                display: none;
+                justify-content: space-around;
+            }
+
+            .active {
+                display: flex;
+            }
+
+
+            button {
+                display: block;
+                float: right;
+            }
+
+            .nav2 {
+                display: none;
+            }
+        }
+
+        @media screen and (min-width:376px) {
+            .nav2 {
+                display: flex;
+                justify-content: space-around;
+            }
+
+            button {
+                display: none;
+            }
+
+            .nav1 {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button>菜单</button>
+
+    <div class="logo">lo</div>
+    <nav class="nav1">
+        <li>栏目1</li>
+        <li>栏目2</li>
+        <li>栏目3</li>
+        <li>栏目4</li>
+        <li>栏目5</li>
+        <li>栏目6</li>
+    </nav>
+    <nav class="nav2">
+        <li>pc栏目1</li>
+        <li>pc栏目2</li>
+        <li>pc栏目3</li>
+        <li>pc栏目4</li>
+        <li>pc栏目5</li>
+        <li>pc栏目6</li>
+    </nav>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        //xx.onclick=function(){
+        //    yy.classList.toggle('active')
+        //}
+        $('button').click(() => {
+            $('.nav1').toggleClass('active');
+        })
+    </script>
+</body>
+
+</html>
