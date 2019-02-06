@@ -12,7 +12,9 @@
     <div id="compute2" @click="reverse">{{ b }}</div>
 
     <div id="fullname">{{ fullName }}</div>
-    <div id="fullname2">{{ fullName2 }}</div>
+
+    <div id="fullname2">{{ fullName }}</div>
+
     <script src="./vue.js"></script>
     <script>
       var mycompute = new Vue({
@@ -59,20 +61,40 @@
         }
       });
 
-      var fullName2 = new Vue({
+      // var fullName2 = new Vue({
+      //   el: "#fullname2",
+      //   data: {
+      //     fullName2: {
+      //       firstname: "sam",
+      //       lastname: "smith"
+      //     }
+      //   },
+      //   watch: {
+      //     fullName2: {
+      //       hander(cur, old) {
+      //         console.log(cur, old);
+      //       }
+      //     }
+      //   }
+      // });
+
+      let app = new Vue({
         el: "#fullname2",
         data: {
-          fullName2: {
-            firstname: "sam",
-            lastname: "smith"
-          }
+          firstName: "zhang",
+          lastName: "san",
+          fullName: ""
         },
         watch: {
-          fullName2: {
-            hander(cur, old) {
-              console.log(cur, old);
-            }
+          firstName: function(value) {
+            this.fullName = value + " " + this.lastName;
+          },
+          lastName: function(value) {
+            this.fullName = this.firstName + " " + value;
           }
+        },
+        created: function() {
+          this.fullName = this.firstName + " " + this.lastName;
         }
       });
     </script>
