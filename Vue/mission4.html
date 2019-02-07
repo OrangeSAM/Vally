@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>mission 4</title>
+    <style>
+      .bblack {
+        background-color: black;
+        color: wheat;
+      }
+      .bborder {
+        border: 5px solid brown;
+      }
+      .cbackred {
+        background-color: red;
+      }
+      .cbackblack {
+        background-color: black;
+      }
+      .carrayblack {
+        background-color: black;
+        color: white;
+      }
+      .carrayred {
+        border: 3px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="a">
+      <a :href="url">click here</a>
+      <img :src="imgUrl" alt="" />
+    </div>
+
+    <div id="b">
+      <h3>绑定class</h3>
+      <p :class="{bblack:isActive,bborder:isBorder}">heihei</p>
+    </div>
+    <div id="c">
+      <h3>背景切换</h3>
+      <p :class="{cbackred:isblack,cbackblack:isred}" @click="changeback">
+        点我啊
+      </p>
+
+      <p :class="classnames">我是使用计算属性得到的</p>
+      <h3>
+        绑定数组语法,数组中的成员直接对应类名
+      </h3>
+      <p :class="[activeclass,errorClass]">嘿嘿</p>
+    </div>
+    <div id="d">
+      <h3>混合数组和对象绑定类名</h3>
+      <div :class="[{carrayblack:isActive},errorClass]">amy</div>
+    </div>
+    <div id="e">
+      <h3>绑定内联样式</h3>
+      <div :style="{color:red,'font-size':fontsize+'px'}">sam</div>
+    </div>
+
+    <script src="./vue.js"></script>
+    <script>
+      let a = new Vue({
+        el: "#a",
+        data: {
+          url: "http://baidu.com",
+          imgUrl:
+            "http://wx2.sinaimg.cn/bmiddle/ed5e6a1dly1fzwxrq5n3zj20go0nswjv.jpg"
+        }
+      });
+
+      let b = new Vue({
+        el: "#b",
+        data: { isActive: true, isBorder: true }
+      });
+
+      let c = new Vue({
+        el: "#c",
+        data: {
+          isblack: true,
+          isred: false,
+          activeclass: "carrayblack",
+          errorClass: "carrayred"
+        },
+        methods: {
+          changeback: function() {
+            if (this.isblack) {
+              this.isblack = false;
+              this.isred = true;
+            } else {
+              this.isblack = true;
+              this.isred = false;
+            }
+          }
+        },
+        computed: {
+          classnames: function() {
+            return {
+              cbackblack: this.isblack
+            };
+          }
+        }
+      });
+
+      let d = new Vue({
+        el: "#d",
+        data: {
+          isActive: true,
+          errorClass: "carrayred"
+        }
+      });
+
+      let e = new Vue({
+        el: "#e",
+        data: { red: "red", fontsize: "12" }
+      });
+    </script>
+  </body>
+</html>
