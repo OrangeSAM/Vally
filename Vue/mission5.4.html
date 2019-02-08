@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>5.4</title>
+</head>
+
+<body>
+    <div id="a">
+        {{count}}
+        <p @click="handle()">点击加1</p>
+        <p @click="handle(10)">点击加10</p>
+
+        <p @click="handle()">点击加1---{{count}}</p>
+        <p @click="handle(10)">点击加10---{{count}}</p>
+
+    </div>
+    <hr>
+    <h4>修饰符 stop 用法</h4>
+    <div id="b" @click="divclick" style="background-color:pink; width: 100px;height: 100px;">
+        <button @click.stop="btnclick">click</button>
+    </div>
+    <h4>修饰符 prevent用法</h4>
+    <form action="" @submit.prevent="hangle">
+        <input type="submit" value="提交">
+    </form>
+    <script src=" ./vue.js"> </script>
+    <script>
+        let a = new Vue({
+            el: "#a",
+            data: {
+                count: 0,
+            },
+            methods: {
+                handle: function (count) {
+                    count = count || 1;
+                    //似乎上面没生效
+                    this.count += count;
+                }
+            },
+        })
+
+        let b = new Vue({
+            el: '#b',
+            data: {
+
+            },
+            methods: {
+                divclick: function () {
+                    alert('div被点击了');
+                },
+                btnclick: function () {
+                    alert('btn被点击了');
+                },
+                hangle: function () {
+                    alert('我不重载页面了');
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

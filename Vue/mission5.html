@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>内置指令</title>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="a">
+      <h3>cloak</h3>
+      <p v-cloak>{{ msg }}</p>
+      <hr />
+      <h3>v-once</h3>
+      <span>下面的元素内容只能修改一次</span>
+      <p v-once>{{ msg }}</p>
+    </div>
+    <hr />
+    <div id="b">
+      <h3>v-if</h3>
+      <div v-if="6<3">{{ apple }}</div>
+      <div v-else>{{ Smartisan }}</div>
+      <hr />
+      <h3>小需求，名字和密码框的切换显示</h3>
+      <!-- <lable v-if="type==='apple'">
+            <input type="text" placeholder="请输入账号">
+        </lable>
+        <label v-else>
+            <input type="text" placeholder="请输入密码">
+        </label> -->
+      <div v-if="type==='name'">
+        账号<input type="text" placeholder="请输入账号" />
+      </div>
+      <div v-else>
+        密码 <input type="text" placeholder="请输入密码" key="pwd" />
+      </div>
+      <button @click="toggleinput">click here</button>
+      <hr />
+      <h3>v-show 用法，显现与否取决于布尔值</h3>
+      <div v-show="9>7">v-showhere</div>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      let a = new Vue({
+        el: "#a",
+        data: {
+          msg: "heihei cloak"
+        }
+      });
+
+      let b = new Vue({
+        el: "#b",
+        data: {
+          apple: "iPhone",
+          Smartisan: "T2",
+          type: "name"
+        },
+        methods: {
+          toggleinput: function() {
+            console.log(11);
+            //等于其他的时候就不显示等于name时候的
+            this.type = this.type === "name" ? "Smartisan" : "name";
+          }
+        }
+      });
+
+      // let c = new Vue({
+      //     el: '#c',
+      //     data: {
+
+      //     }
+      // })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>5.2</title>
+</head>
+
+<body>
+    <div id="a">
+        <h3>v-for的用法</h3>
+        <p>v-for的用法，v-for一定是要写在遍历的元素上,v-for后接等号</p>
+        <div>遍历多个对象。遍历多个对象遍历的一定是数组</div>
+        <hr>
+        <h4>1 遍历多个对象</h4>
+        <p>学好vuejs的方法是</p>
+        <ul>
+            <li v-for="item in vuemethods">{{item.name}}</li>
+        </ul>
+        <hr>
+
+        <p>带索引的写法：括号的第一个变量代表item,第二个变量代表index</p>
+        <ul>
+            <li v-for="(item,index) in vuemethods">{{index}}{{item.name}}</li>
+        </ul>
+        <h4>遍历对象的多个属性</h4>
+        <ul>
+            <li v-for="item in godness">{{item}}{{item.value}}</li>
+        </ul>
+        <p>拿到value key index 的写法 vki</p>
+        <div v-for="(value,key,index) in godness">{{index}} {{key}} {{value}}</div>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        let a = new Vue({
+            el: '#a',
+            data: {
+                vuemethods: [{
+                        name: 'think more '
+                    },
+                    {
+                        name: 'practice more'
+                    },
+                    {
+                        name: 'learn from good one'
+                    }
+                ],
+                godness: {
+                    girl1: '佟丽娅',
+                    girl2: 'amy',
+                    girl3: '盖尔加朵'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

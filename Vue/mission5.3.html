@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>5.3</title>
+</head>
+
+<body>
+    <div id="a">
+        <div v-for="study in arr">{{study}}</div>
+        <button @click="lengthsort">sort click here</button>
+        <button @click="arrreverse">reverse click here</button>
+        <button @click="change">change click here</button>
+        <button @click="changearrlength">lengthchange click here</button>
+        <hr>
+        <h4>计算属性过滤含oo</h4>
+        <div>{{matchOO}}</div>
+    </div>
+
+    <script src="./vue.js"></script>
+    <script>
+        let a = new Vue({
+            el: '#a',
+            data: {
+                arr: ['book', 'pen', 'pencil']
+            },
+            computed: {
+                matchOO: function () {
+                    return this.arr.filter(function (item) {
+                        return item.match(/oo/);
+                    })
+                }
+            },
+            methods: {
+                lengthsort: function () {
+                    this.arr.sort(function (a, b) {
+                        return a.length - b.length;
+                    })
+                },
+                arrreverse: function () {
+                    this.arr.reverse();
+                },
+                //改变数组指定项
+                change: function () {
+                    this.arr[0] = "car";
+                },
+                changearrlength: function () {
+                    this.arr.length - 1;
+                }
+            },
+        })
+        Vue.set(a.arr, 1, 'car');
+    </script>
+</body>
+
+</html>
