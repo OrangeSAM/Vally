@@ -20,13 +20,17 @@
     </div>
     <hr>
     <h4>修饰符 stop 用法</h4>
-    <div id="b" @click="divclick" style="background-color:pink; width: 100px;height: 100px;">
+    <div id="b" @click.self="divclick" style="background-color:pink; width: 100px;height: 100px;">
         <button @click.stop="btnclick">click</button>
+
+        <h4>修饰符 prevent用法</h4>
+        <form action="" @submit.prevent="hangle">
+            <input type="submit" value="提交">
+        </form>
+
+        <h4>监听键盘事件</h4>
+        <input type="text" @keyup.13="submitme">
     </div>
-    <h4>修饰符 prevent用法</h4>
-    <form action="" @submit.prevent="hangle">
-        <input type="submit" value="提交">
-    </form>
     <script src=" ./vue.js"> </script>
     <script>
         let a = new Vue({
@@ -57,6 +61,9 @@
                 },
                 hangle: function () {
                     alert('我不重载页面了');
+                },
+                submitme: function () {
+                    alert('回车键被点了')
                 }
             }
         })

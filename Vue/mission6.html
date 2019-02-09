@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>mission 6</title>
+</head>
+
+<body>
+    <div id="a">
+        <h4>v-model的用法</h4>
+        <hr>
+        <h5>input 和textarea</h5>
+        <input type="text" v-model="value">{{value}}
+        <br>
+        <textarea name="" id="" cols="30" rows="10" v-model="msg">我是多行文本的初值</textarea>
+        {{msg}}
+        <hr>
+        <h5>单选框</h5>
+        <h6>单个单选框</h6>
+        <label for="">单个单选框<input type="radio" :checked="oneradio"></label>
+        <h6>多个单选框</h6>
+        猫蛋<input type="radio" value="猫蛋" v-model="checkname"><br>
+        狗蛋<input type="radio" value="狗蛋" v-model="checkname"><br>
+        翠花<input type="radio" value="翠花" v-model="checkname"><br>
+        选中的值是{{checkname}}
+        <hr>
+        <h5>复选框</h5>
+        单个复选框---用v-bind <input type="checkbox" v-bind:checked="oneradio">
+        单个复选框---用v-model <input type="checkbox" v-model="oneradio">
+        <h6>多个复选框</h6>
+        猫蛋<input type="checkbox" value="猫蛋" v-model="checknamea"><br>
+        狗蛋<input type="checkbox" value="狗蛋" v-model="checknamea"><br>
+        翠花<input type="checkbox" value="翠花" v-model="checknamea"><br>
+        选中的值是{{checknamea}}
+        <hr>
+        <h5>下拉框</h5>
+        <select name="" id="" v-model="selectbox">
+            <option value="猫蛋">猫蛋</option>
+            <option value="狗蛋">狗蛋</option>
+            <option value="翠花">翠花</option>
+        </select>
+        现在选中的是{{selectbox}} 现在是单选，不管data属性中写的是空值还是字符串或者数组，点击显示的结果都是单值
+        <h6>多值下拉框</h6>
+        <select name="" id="" v-model="selectboxs" multiple>
+            <option value="猫蛋">猫蛋</option>
+            <option value="狗蛋">狗蛋</option>
+            <option value="翠花">翠花</option>
+        </select>
+        现在选中的是{{selectboxs}}
+
+        <hr>
+        <h4>修饰符</h4>
+        <h6>lazy</h6>
+        <input type="text" v-model="inpustr">{{inpustr}} <br>
+        <input type="text" v-model.lazy="lazystr">{{lazystr}}
+        <h6>number</h6>
+        <input type="text" v-model.number="isNum">{{typeof isNum}}<br>
+        <input type="text" v-model.number="isNum">{{typeof isNum}}
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        let a = new Vue({
+            el: '#a',
+            data: {
+                value: '',
+                msg: '',
+                oneradio: true,
+                checkname: '',
+                //赋初值以选中
+                checknamea: [],
+                selectbox: '',
+                selectboxs: [],
+                inpustr: '',
+                lazystr: '',
+                isNum: '',
+            }
+        })
+    </script>
+</body>
+
+</html>
