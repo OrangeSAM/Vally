@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>单项数据流</title>
+</head>
+
+<body>
+
+    <div id="a">
+        <input type="text" name="" id="" v-model="parentmsg">
+        <case1 :msg="parentmsg"></case1>
+    </div>
+    <hr>
+
+    <div id="b">
+        <input type="text" name="" id="" v-model="case2msg">
+        <case2 :width="case2msg" :style="style"></case2>
+    </div>
+    <hr>
+
+    <div id="c">
+        <input type="text" v-model="width">
+        <case3 :width="width"></case3>
+        <!-- 为什么少了上面的:width="width" 就不能动态绑定case3模板的width -->
+        <!-- :width="width"卸载template里也没有用 -->
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        let a = new Vue({
+            el: '#a',
+            data: {
+                parentmsg: '萌币',
+            },
+            components: {
+                'case1': {
+                    template: '<div id="child">{{msg1}}</div>',
+                    props: ['msg'],
+                    data: function () {
+                        return {
+                            msg1: this.msg + 1,
+                        }
+                    },
+                    //现在的问题 实现不了实时从父组件收到的内容加1再展示出来
+                    methods: {
+
+                    },
+                    watch: {
+                        msg1: function (value) {
+                            console.log(value)
+                            this.msg = value + 1;
+                        }
+                    },
+                    // props中的值可以通过this.xxx直接来进行获取
+                }
+            }
+        })
+
+        let b = new Vue({
+            el: '#b',
+            data: {
+                case2msg: '',
+            },
+            components: {
+                'case2': {
+                    template: '<div>这里的文字该怎样动态写入呢{{case2msg}}</div>',
+                    //属性写模板上和标签上有差别吗？ //为什么我的在模板写不行 张哥的可以
+                    //因为我没把计算属性放里面来
+                    props: ['case2msg'],
+                },
+            },
+            computed: {
+                style: function () {
+                    return {
+                        width: this.case2msg + 'px',
+                        background: 'red',
+                    }
+                }
+            },
+        })
+
+        Vue.component('case3', {
+            template: '<div :style="style">这里的文字该怎样动态写入呢{{width}}</div>',
+            //为啥这里可以渲染width出来，而case2不行
+            props: ['width'],
+            computed: {
+                style: function () {
+                    return {
+                        width: this.width + 'px',
+                        background: 'pink',
+                    }
+                }
+            },
+        })
+
+        let c = new Vue({
+            el: '#c',
+            data: {
+                width: 2,
+            }
+        })
+    </script>
+</body>
+
+</html>

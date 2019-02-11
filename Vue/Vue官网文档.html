@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>官网文档demo</title>
+</head>
+
+<body>
+    <div id="app-7">
+        <ul>
+            <!--
+                    现在我们为每个 todo-item 提供 todo 对象
+                    todo 对象是变量，即其内容可以是动态的。
+                    我们也需要为每个组件提供一个“key”，稍后再
+                    作详细解释。
+                  -->
+            <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id">
+                <!-- 这里key的作用是什么 -->
+            </todo-item>
+        </ul>
+        <div v-html="rawhtml"></div>
+        <hr>
+        <h4>v-for on a template</h4>
+        <ul>
+            <template v-for="item in groceryList">
+                <li>{{item.text}}</li>
+                <li class="divider" role="presentation"></li>
+            </template>
+        </ul>
+        <hr>
+        <h4>v-for with v-if</h4>
+        <h6>传递未完成的</h6>
+        <ul>
+            <li v-for="item in groceryList" v-if="!item.isComplete">
+                {{item.text}}
+            </li>
+        </ul>
+        <h6>有条件的跳过循环的执行</h6>
+        <ul v-if="groceryList.length">
+            <li v-for="item in groceryList">{{item.text}}</li>
+        </ul>
+    </div>
+
+    <div id="a">
+        <h4>数组语法绑定行内样式，使用多个对象</h4>
+        <div :style="[a,b]">22222</div>
+        <div v-if="ok">
+            <h1>wjdiaji</h1>
+        </div>
+    </div>
+    <div id="example-1">
+        <button v-on:click="counter += 2">Add 1</button>
+        <p>The button above has been clicked {{ counter }} times.</p>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        Vue.component('todo-item', {
+            // todo-item 组件现在接受一个
+            // "prop"，类似于一个自定义特性。
+            // 这个 prop 名为 todo。
+            props: ['todo'],
+            template: '<li>{{todo.id}}{{ todo.text }}</li>'
+        })
+        var app7 = new Vue({
+            el: '#app-7',
+            data: {
+                groceryList: [{
+                        id: 0,
+                        text: '蔬菜',
+                        isComplete: true
+                    },
+                    {
+                        id: 1,
+                        text: '奶酪',
+                        isComplete: false,
+                    },
+                    {
+                        id: 2,
+                        text: '随便其它什么人吃的东西',
+                        isComplete: true
+                    }
+                ],
+                rawhtml: '<span style="color:red">this should be red</span>'
+            },
+            components: {
+                'template': {
+                    template: '<div></div>'
+                }
+            }
+        })
+        let a = new Vue({
+            el: '#a',
+            data: {
+                a: {
+                    fontSize: '20px',
+                    color: 'pink',
+                },
+                b: {
+                    fontWeight: 'bolder',
+                    backgroundColor: 'lightgray'
+                },
+                ok: true
+            }
+        })
+        var example1 = new Vue({
+            el: '#example-1',
+            data: {
+                counter: 0
+            }
+        })
+    </script>
+</body>
+
+</html>

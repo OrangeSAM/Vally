@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        #a {
+            border: 1px solid coral;
+        }
+
+        #a div {
+            height: 80px;
+            border: 1px solid palegreen;
+        }
+    </style>
+    <title>7.2</title>
+</head>
+
+<body>
+    <div id="a">
+        父元素呢
+        <child-component msg="what the hell you are "></child-component>
+        <hr>
+        <child-component msg="[1,2,3]"></child-component>
+        <child-component :msg="[1,2,3] "></child-component>
+        <hr>
+        <h5>把父组件的内容传递给子组件，非写死</h5>
+        <input type="text" v-model="parentmsg">
+        <child-component :msg="parentmsg"></child-component>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        let a = new Vue({
+            el: '#a',
+            data: {
+                parentmsg: '',
+            },
+            components: {
+                'child-component': {
+                    template: '<div class="childsss">{{msg}}</div>',
+                    props: ['msg'],
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

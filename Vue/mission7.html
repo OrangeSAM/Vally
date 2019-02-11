@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>mission 7</title>
+</head>
+
+<body>
+    <div id="a">
+        <mycomponent></mycomponent>
+    </div>
+    <div id="b">
+        <local-register></local-register>
+        <table>
+            <tbody is="local-register"></tbody>
+        </table>
+    </div>
+    <div id="c">
+        <btn-template></btn-template>
+        <btn-template></btn-template>
+        每个组件都会维护期独立的data,因为没用一次组件，就会有一个他的新实例被创建
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        Vue.component('mycomponent', {
+            template: '<div>嘿嘿</div>'
+        })
+
+        let a = new Vue({
+            el: '#a',
+        })
+
+        let b = new Vue({
+            el: '#b',
+            components: {
+                'local-register': {
+                    template: '<div>我是局部注册的组件</div>'
+                },
+
+            }
+        })
+
+        let c = new Vue({
+            el: '#c',
+            components: {
+                'btn-template': {
+                    template: "<button @click='count++'>{{count}}</button>",
+                    data() {
+                        return {
+                            count: 0,
+                        }
+                    },
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>
