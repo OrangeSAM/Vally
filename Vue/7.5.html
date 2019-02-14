@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>子组件给父组件传递数据</title>
+  </head>
+
+  <body>
+    <div id="a">
+      <h6>通过加号按钮和减号按钮给父组件传递数据</h6>
+      <p>现在的总价是{{ total }}</p>
+      <!-- change是自定义事件 -->
+      <son-component @change="handletotal"></son-component>
+    </div>
+    <hr />
+    <div id="b">
+      <h5>
+        在组件中使用v-model且直接获取父组件中已定义的total,而不是子组件中写死的
+      </h5>
+      <span>这是父组件中的total:{{ total }}</span>
+      <son2-component :avalue="total" v-model="total"></son2-component>
+    </div>
+    <hr />
+    <div id="c">
+      <h5>在组件中使用v-model</h5>
+      <span>这是父组件中的total:{{ total }}</span>
+      <son3-component v-model="total"></son3-component>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      Vue.component("son-component", {
+        template: `<div> 
+            <button @click = "handleincrease" > +1 </button> 
+            <button @click = "handlereduce" > -1 </button> 
+            </div>`,
+        data: function() {
+          return {
+            count: 1000
+          };
+        },
+        methods: {
+          handleincrease: function() {
+            console.log("increase");
+            this.count = this.count + 1000;
+            //这一步是修改子组件中的data count，但是并没有传到父组件中
+
+            this.$emit("change", this.count);
+          },
+          handlereduce: function() {
+            console.log("reduce");
+            this.count = this.count - 1000;
+            this.$emit("change", this.count);
+          }
+        }
+      });
+      let a = new Vue({
+        el: "#a",
+        data: {
+          total: 1000
+        },
+        methods: {
+          handletotal: function(value) {
+            //此处的形参value就是传递过来的数据
+            console.log("handletotal");
+            this.total = value;
+          }
+        }
+      });
+
+      let b = new Vue({
+        el: "#b",
+        data: {
+          total: 1000
+        },
+        components: {
+          "son2-component": {
+            template: `<div> 
+                                    <button @click = "handleincrease" > +1000 </button> 
+                                </div>`,
+            props: ["avalue"],
+            data() {
+              return {
+                count: this.avalue
+              };
+            },
+            methods: {
+              handleincrease: function() {
+                console.log(this.count);
+                this.count = this.count + 1000;
+                console.log(this.count);
+                this.$emit("input", this.count);
+              }
+            }
+          }
+        }
+      });
+
+      let c = new Vue({
+        el: "#c",
+        data: {
+          total: 1000
+        },
+        components: {
+          "son3-component": {
+            template: `<div> 
+                                    <button @click = "handleincrease" > +1000 </button> 
+                                </div>`,
+            data() {
+              return {
+                count: 1000
+              };
+            },
+            methods: {
+              handleincrease: function() {
+                console.log(this.count);
+                this.count = this.count + 1000;
+                console.log(this.count);
+                this.$emit("input", this.count);
+              }
+            }
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

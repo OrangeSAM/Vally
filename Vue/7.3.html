@@ -15,13 +15,11 @@
         <case1 :msg="parentmsg"></case1>
     </div>
     <hr>
-
     <div id="b">
         <input type="text" name="" id="" v-model="case2msg">
         <case2 :width="case2msg" :style="style"></case2>
     </div>
     <hr>
-
     <div id="c">
         <input type="text" v-model="width">
         <case3 :width="width"></case3>
@@ -45,9 +43,6 @@
                         }
                     },
                     //现在的问题 实现不了实时从父组件收到的内容加1再展示出来
-                    methods: {
-
-                    },
                     watch: {
                         msg1: function (value) {
                             console.log(value)

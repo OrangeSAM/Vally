@@ -1,37 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>数据验证</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="a">
-        <datevalidate>{{a}}--{{b}}--{{c}}--{{d}}--{{e}}--{{f}}--{{g}}</datevalidate>
+      <!-- 接收来自父组件的数据 -->
+      <data-validate
+        :a="a"
+        :b="b"
+        :c="c"
+        :d="d"
+        :e="e"
+        :f="f"
+        :g="g"
+      ></data-validate>
+    </div>
+    <div id="c">
+      <my-component :msgchild="msg"></my-component>
     </div>
 
     <script src="./vue.js"></script>
     <script>
-        Vue.component('dataValidate', {
-            template: '<div></div>',
-            props: ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
-        })
-        let a = new Vue({
-            el: '#a',
-            data: {
-                a: '1',
-                b: '666',
-                c: true,
-                d: 21211,
-                e: [],
-                f: 3,
-                g: console.log(),
+      Vue.component("dataValidate", {
+        template:
+          "<div>{{a}}---{{b}}---{{c}}---{{d}}---{{e}}--{{f}}--{{g}}</div>",
+        //为啥在这里写{{a}}跟在上面标签又不一样
+        //因为这里才是子组件的作用域
+        //传的函数不会显示？
+        props: {
+          a: Number,
+          b: [String, Number],
+          c: {
+            default: true,
+            type: Boolean
+          },
+          d: {
+            type: Number,
+            required: true
+          },
+          e: {
+            type: Array,
+            default: function() {
+              return [666];
             }
-        })
-    </script>
-</body>
+          },
+          //自定义验证函数
+          f: {
+            validator: function(value) {
+              return value > 1;
+            }
+          },
+          g: {
+            type: Function
+          }
+        }
+        //允许子组件使用的属性
+      });
+      let a = new Vue({
+        el: "#a",
+        //父组件的数据
+        data: {
+          a: 1,
+          b: "666",
+          c: "",
+          d: 21211,
+          e: [1, 2, 2, 3],
+          f: 3,
+          g: console.log("1")
+        }
+      });
 
+      let c = new Vue({
+        el: "#c",
+        data: {
+          msg: "这是来自父组件的内容"
+        },
+        components: {
+          "my-component": {
+            template: "<div>{{msg}}</div>",
+            props: ["msgchild"],
+            data: function() {
+              return {
+                msg: this.msgchild
+              };
+            }
+          }
+        }
+      });
+    </script>
+  </body>
 </html>

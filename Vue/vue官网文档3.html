@@ -1,75 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>官网文档demo</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="example-2">
-        <!-- `greet` 是在下面定义的方法名 -->
-        <button v-on:click="greet">Greet</button>
-        <button v-on:click="warn('Form cannot be submitted yet.', $event)">
-            Submit
-        </button>
+      <!-- `greet` 是在下面定义的方法名 -->
+      <button v-on:click="greet">Greet</button>
+      <button v-on:click="warn('Form cannot be submitted yet.', $event)">
+        Submit
+      </button>
     </div>
 
     <div id="a">
-        <h5>复选框</h5>
-        <input type="checkbox" id="checkbox" v-model="checked">
-        <label for="checkbox">{{ checked }}</label>
-        <div>
-            <input type="checkbox" id="jack" value="Jack" v-model="checkedArr">
-            <label for="jack">Jack</label>
-            <input type="checkbox" id="john" value="John" v-model="checkedArr">
-            <label for="john">John</label>
-            <input type="checkbox" id="mike" value="Mike" v-model="checkedArr">
-            <label for="mike">Mike</label>
-            <br>
-            <span>Checked names: {{ checkedArr }}</span>
-        </div>
+      <h5>复选框</h5>
+      <input type="checkbox" id="checkbox" v-model="checked" />
+      <label for="checkbox">{{ checked }}</label>
+      <div>
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedArr" />
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedArr" />
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedArr" />
+        <label for="mike">Mike</label>
+        <br />
+        <span>Checked names: {{ checkedArr }}</span>
+      </div>
     </div>
     <div id="b">
-        <h5>单选按钮</h5>
+      <h5>单选按钮</h5>
+      <div id="example-4">
+        <input type="radio" id="one" value="One" v-model="picked" />
+        <label for="one">One</label>
+        <br />
+        <input type="radio" id="two" value="2" v-model="picked" />
+        <label for="two">Two</label>
+        <br />
+        <span>Picked: {{ picked }}</span>
+      </div>
+      <hr />
+      <h5>复选框</h5>
+      <input
+        type="checkbox"
+        v-model="toggle"
+        true-value="选中了"
+        false-value="没选中"
+      />{{ toggle }}
+      <hr />
+      <h5>单选按钮</h5>
+      <input type="radio" v-model="pick" :value="a" />{{ pick }}
+      <div>
+        选中后b.pick===b.a
+      </div>
     </div>
     <script src="./vue.js"></script>
     <script>
-        var example2 = new Vue({
-            el: '#example-2',
-            data: {
-                name: 'Vue.js'
-            },
-            // 在 `methods` 对象中定义方法
-            methods: {
-                greet: function (event) {
-                    // `this` 在方法里指向当前 Vue 实例
-                    alert('Hello ' + this.name + '!')
-                    // `event` 是原生 DOM 事件
-                    if (event) {
-                        alert(event.target.tagName)
-                    }
-                },
-                warn: function (message, event) {
-                    // 现在我们可以访问原生事件对象
-                    if (event) event.preventDefault()
-                    alert(message)
-                }
+      var example2 = new Vue({
+        el: "#example-2",
+        data: {
+          name: "Vue.js"
+        },
+        // 在 `methods` 对象中定义方法
+        methods: {
+          greet: function(event) {
+            // `this` 在方法里指向当前 Vue 实例
+            alert("Hello " + this.name + "!");
+            // `event` 是原生 DOM 事件
+            if (event) {
+              alert(event.target.tagName);
             }
-        })
+          },
+          warn: function(message, event) {
+            // 现在我们可以访问原生事件对象
+            if (event) event.preventDefault();
+            alert(message);
+          }
+        }
+      });
 
-        // 也可以用 JavaScript 直接调用方法
-        // example2.greet() // => 'Hello Vue.js!'
-        let a = new Vue({
-            el: '#a',
-            data: {
-                checked: true,
-                checkedArr: []
-            }
-        })
+      // 也可以用 JavaScript 直接调用方法
+      // example2.greet() // => 'Hello Vue.js!'
+      let a = new Vue({
+        el: "#a",
+        data: {
+          checked: true,
+          checkedArr: []
+        }
+      });
+      let b = new Vue({
+        el: "#b",
+        data: {
+          picked: "",
+          toggle: "",
+          pick: "",
+          a: "yes"
+        }
+      });
     </script>
-</body>
-
+  </body>
 </html>

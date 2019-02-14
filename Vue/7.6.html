@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>非父组件之间的通信</title>
+</head>
+
+<body>
+
+    <div id="a">
+        <my-acomponent ref="a"></my-acomponent>
+        <my-bcomponent ref="b"></my-bcomponent>
+        <my-ccomponent ref="c" v-cloak></my-ccomponent>
+        <span>这是父组件的值{{msg}}</span>
+        <hr>
+        <button @click="getcont">我是父组件的按钮，我要拿到子组件的内容</button>
+        <span>这是拿到的子组件的内容 {{fromchild}}</span>
+    </div>
+
+    <script src="./vue.js"></script>
+    <script>
+        Vue.component('my-acomponent', {
+            template: '<div><button @click="handle">点击我向b组件传递数据</button></div>',
+            data() {
+                return {
+                    aaa: '我是来自a组件的内容',
+                    msg: '我是a中的msg'
+                }
+            },
+            methods: {
+                handle: function () {
+                    this.$root.bus.$emit('test', this.aaa);
+                }
+            },
+        })
+        Vue.component('my-bcomponent', {
+            template: '<div></div>',
+            data() {
+                return {
+                    msg: '我是b中的msg'
+                }
+            },
+            created() {
+                //A组件在实例创建的时候就监听事件 
+                this.$root.bus.$on('test', function (value) {
+                    alert(value)
+                })
+            },
+
+        })
+        Vue.component('my-ccomponent', {
+            template: '<button @click="setdata">通过点击我修改数据</button>',
+            methods: {
+                setdata: function () {
+                    this.$parent.msg = "数据已经修改了"
+                }
+            },
+            data() {
+                return {
+                    msg: '我是c中的msg'
+                }
+            }
+
+        })
+        //顺序也会导致bug   组件需要放到实例之前
+        let a = new Vue({
+            el: '#a',
+            data: {
+                //bus中介
+                bus: new Vue(),
+                msg: '数据还未修改',
+                fromchild: '还没拿到'
+            },
+            methods: {
+                getcont: function () {
+                    this.fromchild = this.$refs.c.msg
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

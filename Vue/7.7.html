@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>slot</title>
+</head>
+<div id="a">
+    <h4>单个插槽</h4>
+    <my-component>
+        这是父组件的内容
+    </my-component>
+</div>
+<hr>
+<div id="b">
+    <h4>具名插槽</h4>
+    <name-component>
+        <h3 slot="header">我是标题</h3>
+        <p>我是正文内容</p>
+        <p slot="footer">我是底部信息</p>
+    </name-component>
+</div>
+<hr>
+<div id="c">
+    <my-component>
+        <!-- <template slot="abc" slot-scope="prop">
+            {{prop.text}}
+        </template> -->
+        <p slot="abc" slot-scope="prop">
+            {{prop.text}}
+        </p>
+    </my-component>
+
+</div>
+<hr>
+<div id="d">
+    <h4>点击不同的按钮切换不同的视图</h4>
+    <component :is="thisView"></component>
+    <button @click="oneView('a')">A</button>
+    <button @click="oneView('b')">B</button>
+    <button @click="oneView('c')">C</button>
+    <button @click="oneView('d')">D</button>
+</div>
+
+<body>
+    <script src="./vue.js"></script>
+    <script>
+        let a = new Vue({
+            el: '#a',
+            components: {
+                'my-component': {
+                    template: `
+                    <div>
+                        <slot>如果父组件没有插入内容，我就作为默认出现</slot>
+                    </div>
+                    `
+                }
+            }
+        })
+
+        let b = new Vue({
+            el: '#b',
+            components: {
+                'name-component': {
+                    template: `<div>
+                                <div class="header">
+                                    <slot name="header"></slot>
+                                </div>
+                                <div class="container">
+                                    <slot></slot>
+                                </div>
+                                <div class="footer">
+                                    <slot name="footer"></slot>
+                                </div>
+                            </div>`,
+                    mounted() {
+                        //访问插槽
+                        let header = this.$slots.header;
+                        let text = header[0].elm.innerText
+                        console.log(header);
+                        console.log(text);
+                    },
+                }
+            }
+        })
+
+        let c = new Vue({
+            el: '#c',
+            data: {
+
+            },
+            components: {
+                'my-component': {
+                    template: `
+                        <div> <slot text="我是来自子组件的数据" name="abc"></slot></div>
+                    `
+                    //拿不到里面的name
+                }
+            }
+        })
+
+        let d = new Vue({
+            el: '#d',
+            data: {
+                thisView: 'acomp'
+            },
+            methods: {
+                oneView: function (tag) {
+                    this.thisView = tag + 'comp'
+                }
+            },
+            components: {
+                'acomp': {
+                    template: '<div>AmyAmyAmy1</div>'
+                },
+                'bcomp': {
+                    template: '<div>AmyAmyAmy2</div>'
+                },
+                'ccomp': {
+                    template: '<div>AmyAmyAmy3</div>'
+                },
+                'dcomp': {
+                    template: '<div>AmyAmyAmy4</div>'
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>

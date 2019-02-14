@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件相关</title>
+</head>
+
+<body>
+    <div id="blog-post-demo">
+        <h5>通过prop向子组件传递数据</h5>
+        <!-- 绑定key 是为了防止重复渲染 -->
+        <blog-post v-for="post in posts" :key="post.id" :title="post.title">
+
+        </blog-post>
+    </div>
+    <hr>
+    <div id="a">
+        <h5>监听子组件事件</h5>
+        <div :style="{ fontSize: postFontSize + 'em' }">
+            <button @click="backto1">字号回到初始状态</button>
+            <blog-post2 v-for="post in posts" :key="post.id" :post="post" @enlarge-text="postFontSize += $event">
+                <!-- @enlarge-text="postFontSize += 0.1" -->
+                <!-- 表达式每次把postFontSize + 0.1 -->
+                <!-- 那么子组件是如何知道之前旧的postFontSize呢 -->
+
+                <!-- 现在postFontSize增加是通过表达式写法 -->
+                <!-- 当然也可以通过方法，那在@enlarge后就直接写方法名(onlarge) -->
+                <!-- 同时在父组件中需要有一个方法来进行处理 -->
+                <!-- methods: {
+                onlarge:function(value){
+                this.postFontSize +=value;
+                }
+                }, -->
+            </blog-post2>
+        </div>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        Vue.component('blog-post', {
+            props: ['title'],
+            template: '<h3>{{ title }}</h3>'
+        })
+        let a = new Vue({
+            el: '#blog-post-demo',
+            data: {
+                posts: [{
+                        id: 1,
+                        title: 'My journey with Vue'
+                    },
+                    {
+                        id: 2,
+                        title: 'Blogging with Vue'
+                    },
+                    {
+                        id: 3,
+                        title: 'Why Vue is so fun'
+                    }
+                ]
+            }
+        })
+
+        Vue.component('blog-post2', {
+            props: ['post'],
+            template: `
+                <div class="blog-post">
+                <h3>{{ post.title }}</h3>
+                <button v-on:click="$emit('enlarge-text',0.2)">
+    Enlarge text
+</button>
+                <div v-html="post.content"></div>
+                </div>
+            `
+        })
+        let b = new Vue({
+            el: '#a',
+            data: {
+                posts: [{
+                        id: 1,
+                        title: 'My journey with Vue',
+                        content: 'this is the blog content1'
+                    },
+                    {
+                        id: 2,
+                        title: 'Blogging with Vue',
+                        content: 'this is the blog content2'
+                    },
+                    {
+                        id: 3,
+                        title: 'Why Vue is so fun',
+                        content: 'this is the blog content3'
+                    }
+                ],
+                postFontSize: 1
+            },
+            methods: {
+                backto1: function () {
+                    this.postFontSize = 1;
+                },
+                onlarge: function (value) {
+                    this.postFontSize += value;
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

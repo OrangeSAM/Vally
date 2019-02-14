@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>深入了解组件</title>
+</head>
+
+<body>
+    <div id="a">
+        <h5>静态props和动态props的区别</h5>
+        <a-component :value="[12,32,43]"></a-component>
+        <a-component value="[12,32,43]"></a-component>
+        <p>
+            上面是动态绑定，是数组所以长度为3；下面是字符串，所以长度为7
+        </p>
+        <hr>
+    </div>
+
+    <hr>
+
+    <div id="b">
+        <h5>传入一个对象的所有属性且v-for展示</h5>
+        <b-component v-for="item in msg" :key="item.id" :id="item.id" :cont="item.msgcont"></b-component>
+        <!-- 循环渲染一个对象的所有属性 -->
+        <!-- 首先使用v-for承接来自父组件的内容（msg） -->
+        <!-- 再在后面依次获取动态绑定对象中每一行列中的值（id cont） -->
+        <!-- 因为子组件中需要用到这些值，需要在在props中声明之前获取值的名字（id cont ） -->
+        <!-- 再之后就可以在子组件中插值使用了 -->
+    </div>
+    <hr>
+    <div id="c">
+        <h5>传入一个对象的所有属性</h5>
+        <blog-post v-bind="post"></blog-post>
+        <textarea>
+            <blog-post v-bind="post"></blog-post>
+            等价于：
+            <blog-post v-bind:id="post.id" v-bind:title="post.title"></blog-post>
+        </textarea>
+    </div>
+    <script src="./vue.js">
+    </script>
+    <script>
+        let a = new Vue({
+            el: "#a",
+            data: {},
+            components: {
+                'a-component': {
+                    template: '<div>{{value}}--value长度--{{value.length}}</div>',
+                    props: ['value']
+                }
+            }
+        })
+
+        let b = new Vue({
+            el: "#b",
+            data: {
+                msg: [{
+                        id: 1,
+                        msgcont: '1111',
+                    },
+                    {
+                        id: 2,
+                        msgcont: '222'
+                    }
+                ]
+            },
+            components: {
+                'b-component': {
+                    template: '<div>{{id}}----{{cont}}</div>',
+                    props: ['id', 'cont'],
+                }
+            }
+        })
+
+        let c = new Vue({
+            el: '#c',
+            data: {
+                post: {
+                    id: 1,
+                    title: 'hhhhh'
+                }
+            },
+            components: {
+                'blog-post': {
+                    template: '<div>{{id}}---{{title}}</div>',
+                    props: ['id', 'title']
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

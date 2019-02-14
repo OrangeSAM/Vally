@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义指令</title>
+</head>
+
+<body>
+    <div id="a">
+        <span>获取焦点</span>
+        <input type="text" v-focus><br>
+        <span>不会自动获取焦点</span>
+        <input type="text" name="" id="">
+
+        <hr>
+        <div v-amy:sam.l.o.v.e="m"></div>
+    </div>
+
+    <script src="./vue.js"></script>
+    <script>
+        Vue.directive('focus', {
+            //插入到父节点的时候就调用
+            inserted: function (el) {
+                el.focus();
+            }
+        })
+        Vue.directive('amy', {
+            //插入到父节点的时候就调用
+            bind: function (el, binding, vnode) {
+                console.log(vnode)
+                let keys = Object.keys(vnode);
+                el.innerHTML =
+                    `
+                name : ${binding.name} <br>
+                value : ${binding.value} <br>
+                expression : ${binding.expression}<br>
+                arg : ${binding.arg} <br>
+                modifiers : ${JSON.stringify(binding.modifiers)} <br>
+                vnode:${keys.join('--')} <br>
+                `;
+                //join()方法将一个数组（或一个类数组对象）的所有元素连接成一个字符串并返回这个字符串
+            }
+        })
+
+        var a = new Vue({
+            el: '#a',
+            data: {
+                abcde: '我是value',
+                m: 'pig'
+            }
+        })
+    </script>
+</body>
+
+</html>
