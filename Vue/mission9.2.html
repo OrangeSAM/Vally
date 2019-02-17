@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>this.$slot在render函数中的使用</title>
+  </head>
+
+  <body>
+    <div id="a">
+      <my-component>
+        <p>javascript高级程序设计</p>
+        <h1 slot="header">推荐的几本书</h1>
+        <footer slot="footer">推荐完毕</footer>
+        <p>原则</p>
+      </my-component>
+    </div>
+    <hr />
+
+    <div id="b">
+      <h5>点击切换图片</h5>
+      <button @click="switchshow">click here to switch the image</button
+      >{{ show }}
+      <my-component2 :show="show" :value="name"> </my-component2>
+      <!-- 发现组件里的:value可写可不写啊 -->
+    </div>
+    <hr />
+
+    <div id="c">
+      <h5>render函数中子组件向父组件传递消息 没有使用v-model</h5>
+      <p>{{ name }}</p>
+      <my-component3 @input="showName"></my-component3>
+    </div>
+    <hr />
+    <div id="d">
+      <h5>render函数中子组件向父组件传递消息 使用v-model</h5>
+      <p>{{ name }}</p>
+      <my-component4 :name="name" v-model="name"></my-component4>
+      <!-- 这里的:name也是可写可不写？！ -->
+    </div>
+    <hr />
+
+    <div id="e">
+      <h5>作用域插槽在render函数中的使用</h5>
+      <my-component5>
+        <template scope="prop">
+          {{ prop.text }} {{ prop.msg }}
+        </template>
+      </my-component5>
+    </div>
+    <hr />
+
+    <div id="f">
+      <h5>函数化组件</h5>
+      <my-component6 :hhhh="hahaha"></my-component6>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      let a = new Vue({
+        el: "#a",
+        components: {
+          "my-component": {
+            render: function(createElement) {
+              let header = this.$slots.header;
+              //默认的使用$slot.default获取
+              let main = this.$slots.default;
+              let footer = this.$slots.footer;
+              //第一个参数创建一个div元素，第“2”个参数其实是第三个参数，因为类型为array
+              //第三个参数是子节点，创建了三个子节点，
+              //由于使用了插槽slot，在父组件作用域中的内容会被对应地包括进子节点中
+              return createElement("div", [
+                createElement("header", header),
+                createElement("main", main),
+                createElement("footer", footer)
+              ]);
+            }
+          }
+        }
+      });
+
+      let b = new Vue({
+        el: "#b",
+        data() {
+          return {
+            show: true
+          };
+        },
+        methods: {
+          switchshow: function() {
+            this.show = !this.show;
+          }
+        },
+        components: {
+          "my-component2": {
+            //每次父组件的data会传递到这儿？
+            //"额外的，每次父级组件发生更新时，子组件中所有的 prop 都将会刷新为最新的值"。
+            //来自官方文档
+            props: ["show"],
+            render: function(createElement) {
+              var imgSrc;
+              if (this.show) {
+                imgSrc =
+                  "https://avatars2.githubusercontent.com/u/23071208?s=460&v=4";
+              } else {
+                imgSrc =
+                  "https://avatars2.githubusercontent.com/u/16816234?s=460&v=4";
+              }
+              return createElement("img", {
+                attrs: {
+                  src: imgSrc
+                },
+                style: {
+                  width: "200px"
+                }
+              });
+            }
+          }
+        }
+      });
+
+      let c = new Vue({
+        el: "#c",
+        data: {
+          name: "Sam"
+        },
+        methods: {
+          showName: function(value) {
+            this.name = value;
+          }
+        },
+        components: {
+          "my-component3": {
+            render: function(createElement) {
+              var that = this; //这this指的是当前vue实例
+              return createElement("input", {
+                domProps: {
+                  //获取到的就是props中写的Name咯
+                  value: that.name
+                },
+                on: {
+                  input: function(event) {
+                    //此处的this指的是window  而window没有$emit()方法,所以要在进入render函数时保存好this
+                    that.$emit("input", event.target.value);
+                  }
+                }
+              });
+            },
+            props: ["name"]
+          }
+        }
+      });
+
+      let d = new Vue({
+        el: "#d",
+        data: {
+          name: "jack"
+        },
+        components: {
+          "my-component4": {
+            render: function(createElement) {
+              var that = this;
+              return createElement("input", {
+                domProps: {
+                  value: that.name
+                },
+                on: {
+                  input: function(event) {
+                    that.$emit("input", event.target.value);
+                  }
+                }
+              });
+            },
+            props: ["name"]
+          }
+        }
+      });
+
+      let e = new Vue({
+        el: "#e",
+        data: {
+          weather: "sunny"
+        },
+        components: {
+          "my-component5": {
+            render: function(createElement) {
+              //相当于<div> <slot :text="text"></slot> </slot></div>
+              return createElement(
+                "div",
+                this.$scopedSlots.default({
+                  text: "我是子组件中传递过来的数据",
+                  msg: "scopeText"
+                })
+              );
+            }
+          }
+        }
+      });
+
+      let f = new Vue({
+        el: "#f",
+        data: {
+          hahaha: "1111"
+        },
+        components: {
+          "my-component6": {
+            functional: true, //表示当前的vue实例无状态 无实例
+            render: function(createElement, context) {
+              return createElement(
+                "button",
+                {
+                  on: {
+                    click: function() {
+                      console.log(this); //是window
+                      console.log(context);
+                      console.log(context.parent.hahaha);
+                      console.log(context.parent);
+                      console.log(context.children);
+                      //拿父组件里的context.parent
+                      //拿子组件里的context.children
+                    }
+                  }
+                },
+                "点击我学习webpack"
+              );
+              //第三个参数是子节点
+            },
+            props: ["hhhh"]
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
