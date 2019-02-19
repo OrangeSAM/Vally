@@ -1,21 +1,17 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <router-view</router-view>
-    <list/>
+    <HelloWorld/>
   </div>
 </template>
 
 <script>
 import HelloWorld from "./components/HelloWorld";
-import list from "./components/list";
-import axios from "axios";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
-    list
+    HelloWorld
   }
 };
 </script>

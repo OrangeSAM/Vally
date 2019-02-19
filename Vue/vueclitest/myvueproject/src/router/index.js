@@ -10,11 +10,13 @@ Vue.use(router);
 export default new router({
   //routes可以定义很多个
   routes: [{
-      path: '/helloworld', //指定要跳转的路径
+      name: 'helloworld',
+      path: '/helloworld/:worldmsg', //指定要跳转的路径
       component: HelloWorld //指定要跳转的路径
     },
     {
-      path: '/helloshenzhen',
+      name: 'helloshenzhen',
+      path: '/helloshenzhen/:shenzhenmsg',
       component: HelloShenzhen
     }
   ]

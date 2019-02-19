@@ -2,6 +2,7 @@
   <div class="hello">
     <h1>this is hello shenzhen</h1>
     <h1>{{ msg }}</h1>
+    <h3>{{$route.params.shenzhenmsg}}</h3>
   </div>
 </template>
 

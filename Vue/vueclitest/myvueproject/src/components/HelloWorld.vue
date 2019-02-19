@@ -3,6 +3,7 @@
     <h1>hello world</h1>
     <h2>{{ msg }}</h2>
     <h3>Essential Links</h3>
+    <h3>{{$route.params.worldmsg}}</h3>
     <ul>
       <li>
         <a href="https://vuejs.org" target="_blank">Core Docs</a>
