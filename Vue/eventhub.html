@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>毫无关系的两个组价如何通信</title>
+</head>
+
+<body>
+    <div id="app">
+        <component-a></component-a>
+        <component-b></component-b>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        let eventHub = new Vue();
+        Vue.prototype.$eventHub = eventHub;
+
+        Vue.component("component-a", {
+            template: `<div>a <button @click="notify">click</button></div>`,
+            methods: {
+                notify() {
+                    console.log(this.__proto__);
+                    console.log(Vue.prototype);
+                    console.log(this.__proto__.__proto__ === Vue.prototype);
+                    this.$eventHub.$emit("###", "hi");
+                }
+            }
+        });
+
+        Vue.component("component-b", {
+            template: `<div>b<div ref="output"></div></div>`,
+            created() {
+                this.$eventHub.$on('###', (data) => {
+                    this.$refs.output.textContent = data;
+                })
+            }
+        });
+        let app = new Vue({
+            el: "#app"
+        });
+    </script>
+</body>
+
+</html>

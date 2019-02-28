@@ -5,6 +5,8 @@
     <span>我是子组件</span>
     ---{{msg}}
     <div>我是全局状态{{getNum}}</div>
+    <button @click="sadd">子组件----改变全局状态按钮</button>
+    <button @click="saddAction">子组件----改变状态按钮（decrase action）</button>
     <div>
       <button @click="sendMsgToFather">send message to father</button>
     </div>
@@ -28,6 +30,12 @@ export default {
   methods: {
     sendMsgToFather: function() {
       this.$emit("handle", this.sonmsg);
+    },
+    sadd: function() {
+      this.$store.commit("increase");
+    },
+    saddAction: function() {
+      this.$store.dispatch("decreaseAction");
     }
   },
   computed: {
