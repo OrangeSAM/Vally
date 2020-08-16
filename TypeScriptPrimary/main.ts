@@ -1,8 +1,6 @@
 // var a:string = 'hi'
 // console.log('sam')
-// 了解一下npx parcel
-// npx http-server . -c-1
-// npx 这个命令是在干嘛
+
 
 var div = document.createElement("div");
 div.style.border = "1px solid red";
